@@ -2,6 +2,7 @@ extends Node
 
 export (Array, PackedScene) var world
 export(String) var stateful_group_name = "stateful"
+export(String) var signal_name = "switch_room"
 export(int) var curr_scene = 0
 
 var active_root:Node
@@ -11,12 +12,18 @@ func _ready():
 	active_root = world[curr_scene].instance()
 	add_child(active_root)
 	scene_states.resize(world.size())
+	_connect_signals()
 
-func change_room(target_idx:int) -> int:
+func _change_room(target_idx:int) -> int:
 	if(target_idx < 0 or target_idx >= world.size()):
 		return ERR_INVALID_PARAMETER
 	call_deferred("_update_room", target_idx)
 	return OK
+
+func _connect_signals() -> void:
+	for x in active_root.get_children():
+		if(x.has_user_signal(signal_name) == true):
+			print(x.connect(signal_name, self, "_change_room", [x.TARGET_SCENE]))
 
 func _update_room(idx:int):
 	_save_state()
@@ -24,13 +31,14 @@ func _update_room(idx:int):
 	remove_child(active_root)
 	active_root = world[idx].instance()
 	add_child(active_root)
+	_connect_signals()
 	_load_state(idx)
 
 func _save_state(deep:bool = false):
 	scene_states[curr_scene] = []
 	
 	for x in active_root.get_children():
-		if(x.is_in_group("stateful")):
+		if(x.is_in_group(stateful_group_name)):
 			var begin = 0
 			var end = x.get_property_list().size()
 			if(deep == false):
@@ -54,6 +62,6 @@ func _load_state(scene_idx:int, deep:bool = false) -> void:
 	for x in active_root.get_children():
 		if(x.is_in_group(stateful_group_name)):
 			prop_range = x.get_property_list().size() - ignore
-			for val in range(0, prop_range):
+			for _val in range(0, prop_range):
 				x.set(curr_dict[count].keys()[0], curr_dict[count].values()[0])
 				count+=1

@@ -4,7 +4,7 @@ Designed to store, switch between and maintain statefulness between all the scen
 # How to Use
 
 ## Level Management
- * Attach this script to the top node of your game
+ * Attach level_manager.gd to the top node of your game
  * Resize the world array to fit the PackedScenes you'd like to use in the game
  * Add any PackedScenes you'd like to instance in the game
 

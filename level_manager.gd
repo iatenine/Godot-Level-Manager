@@ -1,3 +1,4 @@
+tool
 extends Node
 
 export (Array, PackedScene) var world
@@ -29,6 +30,7 @@ func _update_room(idx:int):
 	_save_state()
 	curr_scene = idx
 	remove_child(active_root)
+	active_root.queue_free()
 	active_root = world[idx].instance()
 	add_child(active_root)
 	_connect_signals()

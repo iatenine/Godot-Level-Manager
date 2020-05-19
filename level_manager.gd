@@ -23,7 +23,7 @@ func _change_room(target_idx:int) -> int:
 func _connect_signals() -> void:
 	for x in active_root.get_children():
 		if(x.has_user_signal(signal_name) == true):
-			print(x.connect(signal_name, self, "_change_room", [x.TARGET_SCENE]))
+			x.connect(signal_name, self, "_change_room", [x.TARGET_SCENE])
 
 func _update_room(idx:int):
 	_save_state()

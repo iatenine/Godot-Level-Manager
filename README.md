@@ -4,9 +4,10 @@ Designed to store, switch between and maintain statefulness between all the scen
 # How to Use
 
 ## Level Management
- * Attach level_manager.gd to the top node of your game
+ * Attach level_manager.gd to the root node of a(n ideally empty) scene in your game and set it to the "Main Scene" in Project Settings -> General -> Run if not already
  * Resize the world array to fit the PackedScenes you'd like to use in the game
  * Add any PackedScenes you'd like to instance in the game
+ * Set the curr_scene to the index of the scene you'd like to be loaded at the start of the game
 
 ## Implementing passages
 To create a passageway, simply create an item that emits the signal specified in the signal_name with a parameter of the index of the scene you'd like to load (as it was entered in the world array above)

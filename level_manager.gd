@@ -44,7 +44,7 @@ func _save_state(deep:bool = false):
 			var begin = 0
 			var end = x.get_property_list().size()
 			if(deep == false):
-				begin = 61
+				begin = 14
 			for i in range(begin, end):
 				var new_key = x.get_property_list()[i]["name"]
 				var new_val = x.get(new_key)

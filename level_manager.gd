@@ -7,6 +7,7 @@ export(String) var signal_name = "switch_room"
 export(int) var curr_scene = 0
 
 var active_root:Node
+var SAVE_DEPTH = 14
 var scene_states = []
 
 func _ready():
@@ -44,7 +45,7 @@ func _save_state(deep:bool = false):
 			var begin = 0
 			var end = x.get_property_list().size()
 			if(deep == false):
-				begin = 14
+				begin = SAVE_DEPTH
 			for i in range(begin, end):
 				var new_key = x.get_property_list()[i]["name"]
 				var new_val = x.get(new_key)
@@ -59,7 +60,7 @@ func _load_state(scene_idx:int, deep:bool = false) -> void:
 	var ignore = 0
 	var count = 0
 	if(deep == false):
-		ignore = 61
+		ignore = SAVE_DEPTH
 	
 	for x in active_root.get_children():
 		if(x.is_in_group(stateful_group_name)):
